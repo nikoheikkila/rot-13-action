@@ -1,20 +1,24 @@
 {
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
-	"extends": ["config:recommended"],
+	"extends": [
+		"config:recommended",
+		":automergeBranch",
+		":automergeMinor",
+		":automergeRequireAllStatusChecks",
+		":combinePatchMinorReleases",
+		":configMigration",
+		":dependencyDashboard",
+		":maintainLockFilesWeekly"
+	],
+	enabledManagers: [
+		"bun",
+		"github-actions"
+	],
 	"schedule": ["every weekend"],
-	"timezone": "UTC",
-	"prConcurrentLimit": 10,
-	"rebaseWhen": "behind-base-branch",
-	"platformAutomerge": true,
 	"vulnerabilityAlerts": {
 		"enabled": true
 	},
-	"labels": ["dependencies", "renovate"],
 	"semanticCommits": "enabled",
-	"lockFileMaintenance": {
-		"enabled": true,
-		"schedule": ["every weekend"]
-	},
 	"packageRules": [
 		{
 			"description": "Group all GitHub Actions updates",
@@ -38,11 +42,6 @@
 			"groupName": "dependencies",
 			"semanticCommitType": "fix",
 			"rangeStrategy": "bump"
-		},
-		{
-			"description": "Disable automerge for major updates",
-			"matchUpdateTypes": ["major"],
-			"automerge": false
 		}
 	]
 }

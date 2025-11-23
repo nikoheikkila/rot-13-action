@@ -5,8 +5,8 @@
 	"private": true,
 	"devDependencies": {
 		"@biomejs/biome": "^2.3.7",
-		"@stryker-mutator/core": "^9.3.0",
-		"@stryker-mutator/typescript-checker": "^9.3.0",
+		"@stryker-mutator/core": "^9.4.0",
+		"@stryker-mutator/typescript-checker": "^9.4.0",
 		"@types/bun": "latest",
 		"action-docs": "^2.5.1",
 		"fast-check": "^4.3.0",

@@ -14,6 +14,15 @@
 		"bun",
 		"github-actions"
 	],
+	"postUpgradeTasks": {
+		"commands": [
+			"bun build bin/index.ts --production --target node --outdir dist --format esm"
+		],
+		"fileFilters": [
+			"dist/**"
+		],
+		"executionMode": "branch"
+	},
 	"schedule": ["every weekend"],
 	"vulnerabilityAlerts": {
 		"enabled": true

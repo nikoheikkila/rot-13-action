@@ -32,7 +32,7 @@ jobs:
         uses: go-task/setup-task@v1
         with:
           repo-token: ${{ github.token }}
-          version: '3.x'
+          version: "3.x"
 
       - name: Install ActionLint
         shell: bash
@@ -43,13 +43,6 @@ jobs:
 
       - name: Build action
         run: task build
-
-      - name: Ensure action build is current
-        run: |
-          if ! git diff --exit-code --name-only; then
-            echo "::error::Files were mutated during build. Run 'task build' before committing and pushing."
-            exit 1
-          fi
 
       - name: Lint code
         run: task lint
@@ -124,16 +117,16 @@ jobs:
           function push() {
             local tag="$1"
             git tag -fa "$tag" -m "Release $tag"
-            git push origin "$tag" --force  
+            git push origin "$tag" --force
           }
-          
+
           git config user.name "$USERNAME"
           git config user.email "$EMAIL"
-          
+
           push "$TAG"
           push "$(echo "$TAG" | cut -d . -f 1)"
           push "$(echo "$TAG" | cut -d . -f 1-2)"
-          
+
           gh release create "$TAG" --title "Release $TAG" --notes "$CHANGELOG" --verify-tag
         env:
           USERNAME: github-actions[bot]

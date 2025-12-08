@@ -26,7 +26,7 @@
 			"groupName": "github-actions",
 			"semanticCommitType": "ci",
 			"automerge": true,
-			"automergeType": "pr",
+			"automergeType": "branch",
 			"matchUpdateTypes": ["minor", "patch"]
 		},
 		{
@@ -34,6 +34,8 @@
 			"matchDepTypes": ["devDependencies"],
 			"groupName": "dev-dependencies",
 			"semanticCommitType": "chore",
+			"automerge": true,
+			"automergeType": "branch",
 			"rangeStrategy": "bump"
 		},
 		{
@@ -41,6 +43,8 @@
 			"matchDepTypes": ["dependencies"],
 			"groupName": "dependencies",
 			"semanticCommitType": "fix",
+			"automerge": true,
+			"automergeType": "branch",
 			"rangeStrategy": "bump"
 		}
 	]

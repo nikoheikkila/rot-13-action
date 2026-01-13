@@ -1,5 +1,9 @@
 # `nikoheikkila/rot-13-action`
 
+> [!IMPORTANT]
+> This project is a demo GitHub Action built to educate developers on building TypeScript-based GitHub Actions with best practices.
+> For in-depth look at this action, check [the blog post series](https://polarsquad.com/blog/craftspersons-guide-to-github-actions) over at Polar Squad website.
+> 
 <!-- action-docs-all source="action.yml" project="nikoheikkila/rot-13-action" version="v1" -->
 ## Description
 

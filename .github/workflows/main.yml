@@ -8,6 +8,15 @@ on:
     branches:
       - main
 
+# Restrict default permissions to read-only
+permissions:
+  contents: read
+
+# Cancel in-progress runs when a new run is triggered
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   original: "Hello, World!"
   transformed: "Uryyb, Jbeyq!"
@@ -21,15 +30,17 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          persist-credentials: false
 
       - name: Install Bun
-        uses: oven-sh/setup-bun@v2
+        uses: oven-sh/setup-bun@b7a1c7ccf290d58743029c4f6903da283811b979 # v2.1.0
         with:
           bun-version: 1.3.5
 
       - name: Install Task
-        uses: go-task/setup-task@v1
+        uses: go-task/setup-task@0ab1b2a65bc55236a3bc64cde78f80e20e8885c2 # v1.0.0
         with:
           repo-token: ${{ github.token }}
           version: "3.x"
@@ -61,7 +72,9 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          persist-credentials: false
 
       - name: Test with valid input
         uses: ./
@@ -69,11 +82,14 @@ jobs:
         with:
           string: ${{ env.original }}
 
-      - name: Fail if output is incorrect
+      - name: Fail expectation
         if: steps.valid.outputs.result != env.transformed
         run: |
-          echo "::error::Expected result of transformation was '${{ env.transformed }}', but got '${{ steps.valid.outputs.result }}'"
+          echo "::error::Expected result of transformation was '${TRANSFORMED}', but got '${STEPS_VALID_OUTPUTS_RESULT}'"
           exit 1
+        env:
+          TRANSFORMED: ${{ env.transformed }}
+          STEPS_VALID_OUTPUTS_RESULT: ${{ steps.valid.outputs.result }}
 
       - name: Test with empty input
         uses: ./
@@ -94,17 +110,18 @@ jobs:
     needs: [test-unit, test-local-action]
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: write # Required for creating and pushing git tags and GitHub releases
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Determine next version
         id: version
-        uses: mathieudutour/github-tag-action@v6.2
+        uses: mathieudutour/github-tag-action@a22cf08638b34d5badda920f9daf6e72c477b07b # v6.2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           default_bump: patch
@@ -144,7 +161,7 @@ jobs:
 
     steps:
       - name: ROT-13
-        uses: nikoheikkila/rot-13-action@v1
+        uses: nikoheikkila/rot-13-action@v1 # zizmor: ignore[unpinned-uses]
         id: valid
         with:
           string: ${{ env.original }}
@@ -152,11 +169,14 @@ jobs:
       - name: Fail expectation
         if: steps.valid.outputs.result != env.transformed
         run: |
-          echo "::error::Expected result of transformation was '${{ env.transformed }}', but got '${{ steps.valid.outputs.result }}'"
+          echo "::error::Expected result of transformation was '${TRANSFORMED}', but got '${STEPS_VALID_OUTPUTS_RESULT}'"
           exit 1
+        env:
+          TRANSFORMED: ${{ env.transformed }}
+          STEPS_VALID_OUTPUTS_RESULT: ${{ steps.valid.outputs.result }}
 
       - name: Test with empty input
-        uses: nikoheikkila/rot-13-action@v1
+        uses: nikoheikkila/rot-13-action@v1 # zizmor: ignore[unpinned-uses]
         id: invalid
         continue-on-error: true
         with:

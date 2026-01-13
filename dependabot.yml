@@ -11,3 +11,5 @@ updates:
     labels:
       - "dependencies"
       - "security"
+    cooldown:
+      default-days: 7

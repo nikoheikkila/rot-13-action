@@ -19,19 +19,24 @@ on:
 permissions:
   contents: read
 
+# Cancel in-progress runs when a new run is triggered
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     name: Rebuild dist
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: write # Required for committing and pushing rebuilt dist
 
     steps:
       - name: Checkout
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
           ref: ${{ github.head_ref || github.ref_name }}
-          persist-credentials: true # Required for pushing commits
+          persist-credentials: true # zizmor: ignore[artipacked] Required for pushing commits
 
       - name: Install Bun
         uses: oven-sh/setup-bun@3d267786b128fe76c2f16a390aa2448b815359f3 # v2.1.2

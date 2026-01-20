@@ -19,6 +19,9 @@
 		"@actions/core": "^2.0.2",
 		"zod": "^4.3.5"
 	},
+	"overrides": {
+		"undici": ">=6.23.0"
+	},
 	"scripts": {
 		"prepare": "husky"
 	}

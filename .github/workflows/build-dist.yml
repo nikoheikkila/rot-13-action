@@ -55,7 +55,7 @@ jobs:
           git config user.name "$USERNAME"
           git config user.email "$EMAIL"
           git add dist/
-          git diff --staged --quiet || git commit -m "chore: rebuild dist"
+          git diff --staged --quiet || git commit --no-verify -m "chore: rebuild dist"
           git push
         env:
           USERNAME: github-actions[bot]

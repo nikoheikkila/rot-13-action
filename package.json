@@ -16,7 +16,7 @@
 		"typescript": "^5"
 	},
 	"dependencies": {
-		"@actions/core": "^2.0.2",
+		"@actions/core": "^3.0.0",
 		"zod": "^4.3.5"
 	},
 	"overrides": {

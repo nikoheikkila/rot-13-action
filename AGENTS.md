@@ -16,7 +16,7 @@ This is a custom GitHub Action that transforms strings using the ROT-13 cipher. 
 Use `task <name>` for all common operations. Run `task -a` to list all available tasks.
 
 | Command | Description |
-|---------|-------------|
+| --------- | ------------- |
 | `task install` | Install dependencies |
 | `task build` | Build GitHub Action bundle |
 | `task clean` | Clean and rebuild artifacts |
@@ -31,7 +31,7 @@ Use `task <name>` for all common operations. Run `task -a` to list all available
 
 ## Project Structure
 
-```
+```plain
 bin/index.ts       → GitHub Actions entry point
 src/action.ts      → Main action class with dependency injection
 src/rot13.ts       → ROT-13 transformation logic
@@ -58,8 +58,8 @@ The `task build` command creates a single JavaScript bundle:
 - Entry point: `bin/index.ts`
 - Output: `dist/index.js` (always committed to Git)
 - Target: Node.js 24 runtime
-- Format: ESM with inline source maps
-- Minification: Enabled
+- Format: ESM
+- Minification: Enabled (via `--production` flag)
 
 ## Dependency Injection Pattern
 
@@ -68,13 +68,14 @@ The action uses interfaces to decouple from GitHub Actions toolkit:
 ```typescript
 interface Core {
   getInput(name: string): string;
-  setOutput(name: string, value: string): void;
+  setOutput(name: string, value: unknown): void;
   setFailed(message: string): void;
   info(message: string): void;
 }
 ```
 
 This enables:
+
 - Testing without GitHub Actions environment
 - Fast tests with test doubles (see `tests/utils.ts`)
 - Clear separation between business logic and side effects
@@ -92,6 +93,7 @@ Follow the TDD cycle:
 ## Git Hooks
 
 ### Pre-commit
+
 ```sh
 task -p lint build
 git add dist README.md
@@ -100,6 +102,7 @@ git add dist README.md
 The `dist/index.js` bundle must always be committed with source changes.
 
 ### Pre-push
+
 ```sh
 task test
 ```
@@ -109,10 +112,12 @@ Prevents pushing broken code.
 ## Testing Strategy
 
 ### Unit Tests
+
 - Use test doubles pattern (FakeCore) instead of mocking
 - Located in `tests/action.test.ts`
 
 ### Property-Based Tests
+
 - Located in `tests/rot13.test.ts`
 - Verify mathematical properties:
   - Length preservation
@@ -121,6 +126,7 @@ Prevents pushing broken code.
   - Non-alphabetic character preservation
 
 ### Mutation Testing
+
 - 100% mutation score threshold required
 - Run with `task test:mutation`
 

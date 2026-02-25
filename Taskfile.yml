@@ -20,7 +20,7 @@ tasks:
       - bun.lock
     cmds:
       - bun install --frozen-lockfile
-      - bun audit --audit-level=low
+      - bun audit --audit-level=critical
 
   build:
     desc: Build GitHub Action

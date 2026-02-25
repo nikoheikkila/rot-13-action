@@ -1,0 +1,5 @@
+{
+	"permissions": {
+		"allow": ["Bash(actionlint:*)", "Bash(task:*)", "Bash(cd:*)", "Bash(ls:*)"]
+	}
+}

@@ -4,15 +4,8 @@ on:
   pull_request:
     paths:
       - "package.json"
-      - "bun.lockb"
-      - "src/**"
-      - "bin/**"
-  push:
-    branches:
-      - "renovate/**"
-    paths:
-      - "package.json"
-      - "bun.lockb"
+      - "bun.lock"
+      - "Taskfile.yml"
       - "src/**"
       - "bin/**"
 

@@ -8,7 +8,7 @@
 		":combinePatchMinorReleases",
 		":configMigration",
 		":dependencyDashboard",
-		":maintainLockFilesWeekly"
+		":maintainLockFilesDisabled"
 	],
 	enabledManagers: [
 		"bun",
